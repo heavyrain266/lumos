@@ -1,0 +1,9 @@
+*
+
+!.gitignore
+
+!.github
+!.github/**
+
+!*.odin
+!LICENSE.txt
