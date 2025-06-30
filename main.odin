@@ -6,7 +6,8 @@ import "base:runtime"
 
 import sdl "vendor:sdl3"
 
-shared_context : runtime.Context
+
+shared_context: runtime.Context
 
 sdl_log :: proc "c" (userdata: rawptr, category: sdl.LogCategory, priority: sdl.LogPriority, message: cstring) {
 	context = (cast(^runtime.Context)userdata)^
@@ -44,6 +45,13 @@ main :: proc() {
 		.VULKAN, .HIDDEN, .RESIZABLE, .HIGH_PIXEL_DENSITY,
 	})
 	defer sdl.DestroyWindow(window)
+
+	instance: Instance = init_instance({
+		app_name = "lumos",
+		engine_name = "No Engine",
+		proc_addr = auto_cast sdl.Vulkan_GetVkGetInstanceProcAddr()
+	})
+	defer destroy_instance(instance.handle)
 
 	sdl.ShowWindow(window)
 
